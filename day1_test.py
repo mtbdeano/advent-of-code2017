@@ -20,6 +20,7 @@ def test_adder4():
 def test_hadder2():
     assert halfadder('1221') == 0
 
+
 def test_hadder3():
     assert halfadder('123425') == 4
 
@@ -30,9 +31,7 @@ def test_hadder():
 
 def test_hadder4():
     assert halfadder('123123') == 12
-    
 
 
 def test_hadder5():
     assert halfadder('12131415') == 4
-    
