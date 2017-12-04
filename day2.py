@@ -23,7 +23,7 @@ def day2_div(s):
                 print('{}, {} = {} and {}, mod {}'.format(i, j, high, low, high % low))
                 if high % low == 0:
                     print('adding {}'.format(high/low))
-                    tot += high / low
+                    tot += int(high / low)
     return tot
 
 
