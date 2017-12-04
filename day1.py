@@ -8,7 +8,7 @@ def adder(n):
     allnums = n + n[0]
     s = 0
     for x in range(len(n)):
-        if allnums[x] == allnums[x+1]:
+        if allnums[x] == allnums[x + 1]:
             s += int(allnums[x])
     return s
 
@@ -16,7 +16,7 @@ def adder(n):
 def halfadder(n):
     s = 0
     for x in range(len(n)):
-        halfway = (x+int(len(n)/2)) % len(n)
+        halfway = (x + int(len(n) / 2)) % len(n)
         print('pos {} half is {} values are {} and {}'.format(x, halfway, n[x], n[halfway]))
         if n[x] == n[halfway]:
             s += int(n[halfway])

@@ -4,9 +4,9 @@ def next_x():
     x = 0
     i = 0
     while True:
-        x = pow(2*i+1, 2)+i+1
+        x = pow(2 * i + 1, 2) + i + 1
         i += 1
-        yield (i*2 + 1, x)
+        yield (i * 2 + 1, x)
 
 
 def walk_around(size, start, n):
@@ -17,7 +17,7 @@ def walk_around(size, start, n):
         return (1, 0)
     move = (0, 1)
     current = start
-    limit = int(size/2)
+    limit = int(size / 2)
     (x, y) = (limit, 0)
     while current != n:
         (x, y) = (x + move[0], y + move[1])

@@ -17,12 +17,12 @@ def day2_div(s):
     tot = 0
     for row in a:
         for i in range(len(row)):
-            for j in range(i+1, len(row)):
+            for j in range(i + 1, len(row)):
                 high = max(row[i], row[j])
                 low = min(row[i], row[j])
                 print('{}, {} = {} and {}, mod {}'.format(i, j, high, low, high % low))
                 if high % low == 0:
-                    print('adding {}'.format(high/low))
+                    print('adding {}'.format(high / low))
                     tot += int(high / low)
     return tot
 
