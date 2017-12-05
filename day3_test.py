@@ -1,4 +1,4 @@
-from day3 import day3_coord, day3_dist, next_x, walk_around
+from day3 import day3_coord, day3_dist, next_x, walk_around, day3_find_biggest
 
 
 def test_gen():
@@ -38,3 +38,13 @@ def test_dist():
     assert day3_dist(12) == 3
     assert day3_dist(23) == 2
     assert day3_dist(1024) == 31
+
+
+def test_biggest():
+    assert day3_find_biggest(4) == 5
+    assert day3_find_biggest(23) == 25
+    assert day3_find_biggest(122) == 133
+    assert day3_find_biggest(140) == 142
+    assert day3_find_biggest(747) == 806
+    assert day3_find_biggest(400) == 747
+
