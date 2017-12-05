@@ -522,11 +522,22 @@ def day4_is_valid(s):
         check[word] = True
     return True
 
+def day4_has_anagrams(s):
+    words = s.split()
+    check = {}
+    for word in words:
+        if check.get(' '.join(sorted(word))):
+            return False
+        check[' '.join(sorted(word))] = True
+    return True
+
 
 def main():
     lines = TEST_LIST.split('\n')
     valid = [day4_is_valid(passphrase) for passphrase in lines]
     print('{} out of {} are valid'.format(sum(valid), len(lines)))
+    anagrams = [day4_has_anagrams(passphrase) for passphrase in lines]
+    print('{} out of {} are valid using anagrams'.format(sum(anagrams), len(lines)))
 
 
 if __name__ == '__main__':
