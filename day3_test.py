@@ -47,4 +47,3 @@ def test_biggest():
     assert day3_find_biggest(140) == 142
     assert day3_find_biggest(747) == 806
     assert day3_find_biggest(400) == 747
-
