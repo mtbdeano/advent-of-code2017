@@ -1,5 +1,4 @@
 import re
-import anytree
 
 PUZZLE_INPUT = '''ifyzcgi (14)
 axjvvur (50)
@@ -1344,10 +1343,15 @@ NODES = {}
 class Node(object):
     def __init__(self, name, weight):
         self.name = name
-        self.weigth = int(weight)
+        self.weight = int(weight)
+        self.bweight = 0
         self.children = []
         self.elder = None
         NODES[name] = self
+
+    def __str__(self):
+        return 'Node({},{},{},{},{})'.format(self.name,
+            self.weight, self.bweight, self.elder, self.children)
 
     def add_child(self, offspring):
         self.children.append(offspring)
@@ -1360,6 +1364,29 @@ class Node(object):
 
     def kids(self):
         return self.children
+
+    def kid_weights(self):
+        return [Node.find_node(name).weight for name in self.children]
+
+    def get_weight(self):
+        kw = [Node.find_node(kid).get_weight() for kid in self.children]
+        # print('{} kw {}'.format(self.name, kw))
+        if len(kw) > 0:
+            if kw.count(kw[0]) != len(kw):
+                # one of these weights doesn't match, let's fix it
+                vals = [k for k in set(kw)]
+                for idx in range(len(vals)):
+                    key = vals[idx]
+                    if kw.count(key) == 1:
+                        print('only one {} in {}'.format(key, kw))
+                        wrong = [Node.find_node(kid) \
+                            for kid in self.children if
+                            Node.find_node(kid).get_weight() == key][0]
+                        wrong.bweight = vals[(idx + 1) % len(vals)] - vals[idx]
+                        print('so setting {} to {}'.format(wrong.name, wrong.bweight))
+                        kw = [Node.find_node(kid).get_weight() for kid in self.children]
+        print('{} weighs {} using {} extra'.format(self.name, self.weight + self.bweight + sum(kw), self.bweight))
+        return self.weight + self.bweight + sum(kw)
 
     @staticmethod
     def find_node(s):
@@ -1381,6 +1408,11 @@ class Node(object):
         global NODES
         return [name for name, node in NODES.items() if node.parent() is None]
 
+    @staticmethod
+    def find_extra():
+        global NODES
+        return [node for name, node in NODES.items() if node.bweight != 0]
+
 
 def day7_find_root(s):
     nodelines = sorted(s.split('\n'), key=len)  # ensures leafs nodes first by being the shortest
@@ -1398,10 +1430,29 @@ def day7_find_root(s):
     return Node.find_roots()
 
 
+def day7_find_weight(s):
+    nodelines = sorted(s.split('\n'), key=len)  # ensures leafs nodes first by being the shortest
+    for line in nodelines:
+        (node, weight, _, links) = re.search(r'(\w+) \((\d+)\)( -> )?([\w\s,]*)$', line).groups()
+        # print('{} ({}) -> {}'.format(node, weight, links))
+        n = Node(node, weight)
+        if links:
+            for c in links.split(', '):
+                # print('adding {} to {}'.format(c, node))
+                n.add_child(c)
+    Node.link_up()
+    # now go find the root
+    root = Node.find_node(Node.find_roots()[0])
+    print('total weight {}'.format(root.get_weight()))
+
+    ex = root.find_extra()[0]
+    return (ex.name, ex.weight, ex.bweight)
+
 
 
 def main():
     print('tree root is {}'.format(day7_find_root(PUZZLE_INPUT)))
+    print('tree extra is {}'.format(day7_find_weight(PUZZLE_INPUT)))
     
 
 if __name__ == '__main__':
